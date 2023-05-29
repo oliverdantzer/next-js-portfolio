@@ -84,7 +84,7 @@ export default function Home() {
             <h1
               className={`m-6 text-[4vw] font-bold heading ${themeVariantsStroke[theme]}`}
             >
-              Hi! I'm Oliver Dantzer.
+              Hi! I&apos;m Oliver Dantzer.
             </h1>
           </li>
           <li className={`${themeVariantsShadowTxt[theme]}`}>
@@ -93,7 +93,7 @@ export default function Home() {
               <div>
                 {" "}
                 3<sup>rd</sup>
-                {"\u00A0"}year Computing @ Queen's University
+                {"\u00A0"}year Computing @ Queen&apos;s University
               </div>
             </h1>
           </li>

@@ -221,7 +221,7 @@ export default function Stars() {
   useEffect(() => {
     resetDimensions();
     updateCanvasPixelRatio(canvasRef);
-  }, []);
+  }, [resetDimensions]);
 
   function handleResize() {
     resetDimensions();
@@ -246,7 +246,7 @@ export default function Stars() {
     return () => {
       window.removeEventListener("resize", debouncedHandleResize);
     };
-  }, []);
+  }, [debouncedHandleResize]);
 
   // animate stars
   useEffect(() => {

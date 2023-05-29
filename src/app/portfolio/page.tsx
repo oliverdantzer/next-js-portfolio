@@ -159,7 +159,10 @@ export default function Home() {
                       className={`flex flex-wrap justify-center border-b-2 mb-2 pb-2 ${themeVariantsBorder[theme]}`}
                     >
                       {item.technologies.map((technology) => (
-                        <div className={`mx-2 my-1 flex flex-row`}>
+                        <div
+                          key={technology}
+                          className={`mx-2 my-1 flex flex-row`}
+                        >
                           {getTechnologyIcon(technology)}{" "}
                           <p className="ml-1">{technology}</p>
                         </div>

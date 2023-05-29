@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 
 const debounce = <F extends (...args: any[]) => void>(
   func: F,
@@ -179,7 +179,7 @@ function updateCanvasPixelRatio(
   }
 }
 
-export default function Stars(props: { variant: string }) {
+export default function Stars() {
   let dimensions = {
     height: 100,
     width: 100,
@@ -295,7 +295,7 @@ export default function Stars(props: { variant: string }) {
   return (
     <canvas
       ref={canvasRef}
-      className={`bg-gradient-to-br from-indigo-950 from-40% via-violet-900 via-95%  to-fuchsia-900 fixed h-full w-full ${props.variant}`}
+      className={`fade-in z-0 w-screen h-screen`}
     ></canvas>
   );
 }

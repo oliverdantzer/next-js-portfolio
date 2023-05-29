@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -29,7 +30,7 @@ module.exports = {
         },
         accent: {
           dark: "#eebcf0",
-          light: "#7a607a",
+          light: "#a21caf",
         },
         linkedIn: {
           DEFAULT: "#0A66C2",

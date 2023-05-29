@@ -106,6 +106,7 @@ export default function Home() {
             const item = portfolioProjects[project];
             return (
               <div
+                key={project}
                 className={`w-[400px] font-semibold flex flex-col border-2 rounded m-4 backdrop-filter backdrop-blur-xsm ${themeVariantsBorder[theme]} ${themeVariantsShadowTxt[theme]}`}
               >
                 <div className="m-2">

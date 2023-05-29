@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 const debounce = <F extends (...args: any[]) => void>(
   func: F,
@@ -195,7 +195,11 @@ export default function Stars() {
       };
     }
   }
+
   resetDimensions();
+
+  const resetDimensionsCallback = useCallback(resetDimensions, []);
+
   //ref to canvas
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -219,12 +223,12 @@ export default function Stars() {
 
   // runs only on first render of component
   useEffect(() => {
-    resetDimensions();
+    resetDimensionsCallback();
     updateCanvasPixelRatio(canvasRef);
-  }, [resetDimensions]);
+  }, [resetDimensionsCallback]);
 
   function handleResize() {
-    resetDimensions();
+    resetDimensionsCallback();
     updateCanvasPixelRatio(canvasRef);
 
     starList = [];

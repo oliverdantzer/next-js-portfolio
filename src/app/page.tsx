@@ -105,7 +105,7 @@ export default function Home() {
           <li className={`flex flex-row text-4xl font-bold`}>
             <a
               className={`resume-button m-4 p-4 flex flex-row ${themeVariantsShadowLink[theme]}`}
-              href="next.svg"
+              href="resume_oliver.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >

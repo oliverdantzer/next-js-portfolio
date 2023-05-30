@@ -16,6 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>{metadata.title}</title>
+        <meta name="robots" content="index,follow" />
+        <meta name="googlebot" content="index,follow" />
+        <meta name="description" content={metadata.description} />
         <link
           href="https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap"
           rel="stylesheet"

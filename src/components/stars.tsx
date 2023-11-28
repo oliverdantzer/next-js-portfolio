@@ -1,5 +1,10 @@
 "use client";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useMemo } from "react";
+import { useMode } from "./mode-context";
+
+
+
+let color = "white";
 
 const debounce = <F extends (...args: any[]) => void>(
   func: F,
@@ -47,7 +52,8 @@ function drawStar(
   radius: number,
   numPoints: number,
   innerRadius: number,
-  angleDegrees: number
+  angleDegrees: number,
+  color: string
 ) {
   let angleAdd = angleDegrees * (Math.PI / 180);
   ctx.beginPath();
@@ -59,7 +65,7 @@ function drawStar(
     ctx.lineTo(xPos, yPos);
   }
   ctx.closePath();
-  ctx.fillStyle = "white";
+  ctx.fillStyle = color;
   ctx.fill();
 }
 
@@ -70,15 +76,15 @@ interface Star {
   size: number;
   velocity: [number, number];
   numPoints: number;
-  draw: (this: Star, ctx: CanvasRenderingContext2D) => void;
+  draw: (this: Star, ctx: CanvasRenderingContext2D, color: string) => void;
   update: (this: Star, width: number, height: number) => void;
 }
 
-function draw(this: Star, ctx: CanvasRenderingContext2D): void {
+function draw(this: Star, ctx: CanvasRenderingContext2D, color: string): void {
   if (this.size > 0.6) {
-    drawStar(ctx, this.position, this.size, this.numPoints, this.size / 2, 40);
+    drawStar(ctx, this.position, this.size, this.numPoints, this.size / 2, 40, color);
   } else {
-    ctx.fillStyle = "white";
+    ctx.fillStyle = color;
     ctx.fillRect(this.position[0], this.position[1], 0.5, 0.5);
   }
   // if (this.size < 1) {
@@ -158,37 +164,46 @@ function populateStarList(
   }
 }
 
-function updateCanvasPixelRatio(
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
+function updateCanvasSize(
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>,
+  width: number,
+  height: number
 ) {
   const canvas = canvasRef.current;
+
   if (canvas) {
-    const context = canvas.getContext("2d");
-    if (context) {
-      const pixelRatio = window.devicePixelRatio || 1;
-      const canvasWidth = canvas.clientWidth * pixelRatio;
-      const canvasHeight = canvas.clientHeight * pixelRatio;
+    canvas.width = width;
+    canvas.height = height;
+    //   const context = canvas.getContext("2d");
+    //   if (context) {
+    //     const pixelRatio = window.devicePixelRatio || 1;
+    //     const canvasWidth = canvas.clientWidth * pixelRatio;
+    //     const canvasHeight = canvas.clientHeight * pixelRatio;
 
-      // Set the canvas width and height based on the pixel ratio
-      canvas.width = canvasWidth;
-      canvas.height = canvasHeight;
+    //     // Set the canvas width and height based on the pixel ratio
+    //     canvas.width = canvasWidth;
+    //     canvas.height = canvasHeight;
 
-      // Scale the canvas context to match the pixel ratio
-      context.scale(pixelRatio, pixelRatio);
-    }
+    //     // Scale the canvas context to match the pixel ratio
+    //     context.scale(pixelRatio, pixelRatio);
+
+    //   }
   }
 }
 
 export default function Stars() {
-  let dimensions = {
+  const { mode } = useMode();
+  let color = mode === "dark" ? "white" : "black";
+
+  const dimensions = useRef({
     height: 100,
     width: 100,
     max: 100,
-  };
+  });
 
   function resetDimensions() {
     if (typeof window != "undefined") {
-      dimensions = {
+      dimensions.current = {
         height: window.innerHeight,
         width: window.innerWidth,
         max: Math.max(window.innerHeight, window.innerWidth),
@@ -196,7 +211,14 @@ export default function Stars() {
     }
   }
 
-  resetDimensions();
+  const smallSizeRange = useMemo<[number, number]>(() => [0.2, 0.3], []);
+  const numStars= 100;
+  const sizeRange = useMemo<[number, number]>(() => [0.2, 2], []);
+  const speedMult = 0.1;
+  let starList: Star[] = useMemo(() => [], []);;
+  
+
+  let smallStarList: Star[] = useMemo(() => [], []);;
 
   const resetDimensionsCallback = useCallback(resetDimensions, []);
 
@@ -204,43 +226,42 @@ export default function Stars() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // circle position
-  let starList: Star[] = [];
-  let numStars: number = 100;
-  let sizeRange: [number, number] = [0.2, 2];
-  let speedMult: number = 0.1;
+ 
+  
 
-  let smallStarList: Star[] = [];
-  let smallSizeRange: [number, number] = [0.2, 0.3];
-
-  populateStarList(
-    starList,
-    numStars,
-    sizeRange,
-    speedMult,
-    dimensions.width,
-    dimensions.height
-  );
-
-  // runs only on first render of component
-  useEffect(() => {
+  const handleResize = useCallback(() => {
     resetDimensionsCallback();
-    updateCanvasPixelRatio(canvasRef);
-  }, [resetDimensionsCallback]);
-
-  function handleResize() {
-    resetDimensionsCallback();
-    updateCanvasPixelRatio(canvasRef);
-
-    starList = [];
+    updateCanvasSize(
+      canvasRef,
+      dimensions.current.width,
+      dimensions.current.height
+    );
+    
+    starList.splice(0, starList.length);
     populateStarList(
       starList,
       numStars,
       sizeRange,
       speedMult,
-      dimensions.width,
-      dimensions.height
+      dimensions.current.width,
+      dimensions.current.height
     );
-  }
+    
+    smallStarList.splice(0, starList.length);
+    populateStarList(
+      smallStarList,
+      numStars,
+      smallSizeRange,
+      speedMult,
+      dimensions.current.width,
+      dimensions.current.height
+    );
+  }, [resetDimensionsCallback, canvasRef, dimensions, starList, numStars, sizeRange, speedMult, smallStarList, smallSizeRange]);
+
+  // runs only on first render of component
+  useEffect(() => {
+    handleResize();
+  }, [handleResize]);
 
   const debouncedHandleResize = debounce(handleResize, 200); // 200ms delay
 
@@ -265,10 +286,10 @@ export default function Stars() {
 
         starList.forEach((star) => {
           // Draw circle
-          star.draw(context);
+          star.draw(context, color);
 
           //Update circle pos
-          star.update(dimensions.width, dimensions.height);
+          star.update(dimensions.current.width, dimensions.current.height);
         });
       }
 
@@ -297,9 +318,6 @@ export default function Stars() {
     };
   });
   return (
-    <canvas
-      ref={canvasRef}
-      className={`fade-in z-0 w-screen h-screen`}
-    ></canvas>
+    <canvas ref={canvasRef} className={`fade-in absolute inset-0`}></canvas>
   );
 }

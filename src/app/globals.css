@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.dark {
-  @apply bg-secondary-dark text-primary-dark;
-}
-
-.light {
-  @apply bg-secondary-light text-primary-light;
-}
-
 .txt-shadow-light {
   filter: drop-shadow(0px 1px 2px theme("colors.secondary.light.off"));
 }
@@ -93,23 +85,4 @@
 
 .miniblur {
   filter: blur(1px);
-}
-
-.heading {
-  font-family: "Rubik Moonrocks", cursive;
-}
-.nav-icon-option {
-  display: none;
-}
-.nav-text-option {
-  display: inline;
-}
-
-@media (max-width: 1000px) {
-  .nav-text-option {
-    display: none;
-  }
-  .nav-icon-option {
-    display: inline;
-  }
 }

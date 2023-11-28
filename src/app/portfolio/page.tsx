@@ -1,12 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Mode } from "@anatoliygatt/dark-mode-toggle";
-import Layout from "../layoutComponent";
-import tailwindConfig from "../../../tailwind.config.js";
-import resolveConfig from "tailwindcss/resolveConfig";
-import { Colors, TailwindConfig } from "../../tailwindConfigWorkaround";
-import Image from "next/legacy/image";
-import portfolioProjectsJson from "../../portfolio_projects.json";
+import Image from "next/image";
+import portfolioProjectsJson from "@/portfolio_projects.json";
 import { BsArrowRightCircle, BsDash } from "react-icons/bs";
 import {
   SiPandas,
@@ -25,11 +20,6 @@ import {
 } from "react-icons/si";
 import { ReactElement } from "react";
 import { IconContext } from "react-icons/lib";
-import { themeService } from "../../themeService";
-
-const fullConfig = resolveConfig(tailwindConfig) as TailwindConfig;
-
-const colors: Colors = fullConfig.theme.colors;
 
 interface PortfolioProjects {
   [key: string]: {
@@ -58,34 +48,7 @@ const technologyIcons: { [key: string]: ReactElement } = {
 };
 
 export default function Home() {
-  const [theme, setTheme] = useState<Mode>(themeService.getTheme());
-
   const portfolioProjects: PortfolioProjects = portfolioProjectsJson;
-
-  const themeVariantsMain = {
-    dark: "bg-secondary-dark text-primary-dark",
-    light: "bg-secondary-light text-primary-light",
-  };
-
-  const themeVariantsBorder = {
-    dark: "border-primary-dark",
-    light: "border-primary-light",
-  };
-
-  const themeVariantsShadowTxt = {
-    dark: "txt-shadow-dark",
-    light: "txt-shadow-light",
-  };
-
-  const themeVariantsShadowLink = {
-    dark: "link-shadow-dark",
-    light: "link-shadow-light",
-  };
-
-  const themeVariantsBg = {
-    dark: "bg-secondary-dark",
-    light: "bg-secondary-light",
-  };
 
   function getTechnologyIcon(technology: string): ReactElement {
     let icon = <BsDash />;
@@ -94,46 +57,57 @@ export default function Home() {
     }
     return icon;
   }
+  const theme = "dark";
 
   return (
-    <main className={`relative ${themeVariantsMain[theme]}`}>
-      <Layout colors={colors} theme={theme} setTheme={setTheme} />
-      <div className="mt-[68px]">
+    <main className={`relative`}>
+      <div className="">
         <div
-          className={`fade-in flex flex-wrap justify-center mt-8 overflow-y-auto max-h-[calc(100vh-68px)]`}
+          className={`fade-in flex flex-wrap justify-center pt-8 overflow-y-auto max-h-[calc(100vh-68px)]`}
         >
-          {Object.keys(portfolioProjects).map((project) => {
+          {Object.keys(portfolioProjects).map((project, index) => {
             const item = portfolioProjects[project];
             return (
               <div
-                key={project}
-                className={`w-[400px] font-semibold flex flex-col border-2 rounded m-4 backdrop-filter backdrop-blur-xsm ${themeVariantsBorder[theme]} ${themeVariantsShadowTxt[theme]}`}
+                key={index}
+                className={`w-[280px] xs:w-[320px] sm:w-[400px] font-semibold flex flex-col border-2 rounded m-8 backdrop-filter backdrop-blur-xsm border-primary-dark dark:border-primary-light text-shadow-light dark:text-shadow-dark`}
               >
                 <div className="m-2">
                   <div className="flex flex-row font-bold">
                     <h1 className={`m-2`}>{item.name}</h1>
-                    <h1 className="ml-auto m-2 whitespace-nowrap">
+                    <h1 className="m-2 ml-auto whitespace-nowrap">
                       {item.date}
                     </h1>
                   </div>
                   <a
-                    className={`m-4 flex flew-row border-2 rounded bg-secondary-dark ${themeVariantsShadowLink[theme]} ${themeVariantsBorder[theme]}`}
+                    className={`m-4 flex flew-row border-2 rounded link-shadow-light dark:link-shadow-dark border-primary-dark dark:border-primary-light`}
                     href={item.github}
                   >
                     <div
-                      className={`w-[300px] h-[150px] relative overflow-hidden flex items-center justify-center`}
+                      className={`w-[200px] xs:w-[300px] h-[150px] relative overflow-hidden`}
                     >
-                      <img
-                        className="w-auto h-[120%] max-h-none max-w-none miniblur"
-                        src={"/" + item.image}
-                        alt="Image description"
-                      />
+                      {index == 0 ? (
+                        <Image
+                          className="object-cover w-full h-full"
+                          src={"/" + item.image}
+                          alt="Image description"
+                          fill
+                          priority
+                        />
+                      ) : (
+                        <Image
+                          className="object-cover w-full h-full"
+                          src={"/" + item.image}
+                          alt="Image description"
+                          fill
+                          priority
+                        />
+                      )}
                     </div>
 
                     <div className="flex flex-col items-center justify-center">
                       <IconContext.Provider
                         value={{
-                          color: colors.primary.dark,
                           className: "mt-1",
                           size: "25px",
                         }}
@@ -149,15 +123,11 @@ export default function Home() {
                   </a>
                   <IconContext.Provider
                     value={{
-                      color:
-                        theme == "dark"
-                          ? colors.primary.dark
-                          : colors.primary.light,
                       className: "mt-1",
                     }}
                   >
                     <div
-                      className={`flex flex-wrap justify-center border-b-2 mb-2 pb-2 ${themeVariantsBorder[theme]}`}
+                      className={`flex flex-wrap justify-center border-b-2 mb-2 pb-2 border-primary-dark dark:border-primary-light`}
                     >
                       {item.technologies.map((technology) => (
                         <div
@@ -170,7 +140,7 @@ export default function Home() {
                       ))}
                     </div>
                   </IconContext.Provider>
-                  <p className="text-center m-2">{item.description}</p>
+                  <p className="m-2 text-center">{item.description}</p>
                   <a className="flex flex-row" href={item.github}></a>
                 </div>
               </div>

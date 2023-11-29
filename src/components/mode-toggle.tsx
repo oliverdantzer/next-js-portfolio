@@ -15,7 +15,7 @@ export default function ModeToggle() {
   }, []);
 
   if (!isMounted) {
-    return <div className="w-[48px] h-[28px] rounded-full overflow-hidden bg-primary-dark dark:bg-primary-light" />
+    return <div className="w-[48px] h-[28px] mt-[1px] rounded-full overflow-hidden bg-primary-dark dark:bg-primary-light" />
   }
 
   return (

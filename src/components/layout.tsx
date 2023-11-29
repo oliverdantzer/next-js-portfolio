@@ -2,6 +2,9 @@
 import Navbar from "./navbar";
 import Stars from "./stars";
 import { ModeProvider, useMode } from "./mode-context";
+import BackgroundMouseEffect from "./bg-mouse-effects";
+import BackgroundMouseGlow from "./bg-mouse-glow";
+import { GiPolarStar } from "react-icons/gi";
 
 export default function Layout(params: { children: React.ReactNode }) {
   return (
@@ -31,6 +34,15 @@ export function LayoutContent(params: { children: React.ReactNode }) {
             className={`absolute top-0 left-0 h-full w-full opacity-80 dark:opacity-0 ${themeVariantsBackground.light}`}
           />
           <Stars />
+          <BackgroundMouseGlow killTime={1000} />
+          <BackgroundMouseEffect
+            minDistance={50}
+            killTime={1000}
+            rotation
+            offset={10}
+          >
+            <GiPolarStar className="text-white star-trail" />
+          </BackgroundMouseEffect>
         </div>
       </div>
     </div>

@@ -49,6 +49,38 @@
   animation: fadeIn 0.5s ease-in-out 0.2s both;
 }
 
+@keyframes fadeFall {
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.star-trail {
+  animation: fadeFall 1s ease-out forwards;
+}
+
+@keyframes fadeShrink {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.glow-trail {
+  animation: fadeShrink 1s forwards;
+  box-shadow: 0 0 15px 10px #ff00a207;
+}
+
 .bgblur {
   backdrop-filter: blur(2px);
 }

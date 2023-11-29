@@ -22,7 +22,7 @@ const debounce = <F extends (...args: any[]) => void>(
       timeoutId = null;
     }, delay);
   };
-};
+}; 
 
 // set fill or stroke to null for nothing
 function drawCircle(
@@ -321,3 +321,5 @@ export default function Stars() {
     <canvas ref={canvasRef} className={`fade-in absolute inset-0`}></canvas>
   );
 }
+
+export { debounce };

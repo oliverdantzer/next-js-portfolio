@@ -71,7 +71,7 @@ export default function Home() {
           <li className={`flex flex-wrap text-4xl font-bold`}>
             <Link
               className={`resume-button m-4 p-4 link-shadow-light dark:link-shadow-dark`}
-              href="resume_oliver.pdf"
+              href="resume-oliver-dantzer.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >

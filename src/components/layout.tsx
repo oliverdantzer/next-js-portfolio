@@ -41,7 +41,7 @@ export function LayoutContent(params: { children: React.ReactNode }) {
             rotation
             offset={10}
           >
-            <GiPolarStar className="text-white star-trail" />
+            <GiPolarStar className="text-black dark:text-fuchsia-400 star-trail" />
           </BackgroundMouseEffect>
         </div>
       </div>

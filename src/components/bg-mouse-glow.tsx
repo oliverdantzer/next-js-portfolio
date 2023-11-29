@@ -48,7 +48,7 @@ export default function BackgroundMouseGlow(params: { killTime: number }) {
       {particles.map((particle) => (
         <div
           key={particle.id}
-          className="absolute w-[1px] h-[1px] bg-fuchsia-800 rounded-full glow-trail"
+          className="absolute w-[1px] h-[1px] bg-black dark:bg-fuchsia-800 rounded-full glow-trail"
           style={{
             left: particle.x,
             top: particle.y,
@@ -62,7 +62,7 @@ export default function BackgroundMouseGlow(params: { killTime: number }) {
           top: mousePos.y,
         }}
       >
-        <div className="w-[1px] h-[1px] bg-fuchsia-800 rounded-full glow-trail" />
+        <div className="w-[1px] h-[1px] bg-black dark:bg-fuchsia-800 rounded-full glow-trail" />
       </div>
     </div>
   );

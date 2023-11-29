@@ -53,14 +53,6 @@ export const portfolioProjects: PortfolioProject[] = [
     image: nextPortfolio,
   },
   {
-    name: "React.js Portfolio",
-    date: "Apr 2023",
-    github: "https://github.com/oliverdantzer/oliverdantzer.github.io",
-    technologies: ["React.js", "JavaScript", "HTML5", "CSS3", "Node.js"],
-    description: "My previous portfolio website built with React.",
-    image: reactPortfolio,
-  },
-  {
     name: "Music Generation",
     date: "Mar 2023",
     github: "https://github.com/oliverdantzer/music-generation",
@@ -93,5 +85,13 @@ export const portfolioProjects: PortfolioProject[] = [
     description:
       "Model the card game Yaniv in predicate logic and solve for satisfiability.",
     image: yanivPredicate,
+  },
+  {
+    name: "React.js Portfolio",
+    date: "Apr 2023",
+    github: "https://github.com/oliverdantzer/oliverdantzer.github.io",
+    technologies: ["React.js", "JavaScript", "HTML5", "CSS3", "Node.js"],
+    description: "My previous portfolio website built with React.",
+    image: reactPortfolio,
   },
 ];
